@@ -145,3 +145,61 @@ using namespace std;
 
 
 
+
+
+
+
+
+
+
+//二、string类对象的比较大小
+//不但对象和对象之间能够比较，对象和字符串数组，或者对象和字符串都能进行比较
+//#include<string>
+//int main(void)
+//{
+//    string s1("hello world");
+//    string s2("hello bit");
+//
+//    cout<<(s1<s2)<<endl;//其基本的逻辑就是ascll码相比较
+////    cout<<(s1<arr)<<endl;一个对象一个字符串能比较，一个对象一个字符数组也能比较
+//}
+
+//后续补充 string类重载了很多的符号，基本不用自己在去重载
+
+
+
+
+
+
+
+
+
+
+//三、c++11新增的成员函数
+//1.stoi()     int stoi(const string& str,size_t* idx=0,int base =10);    int stoi(const wstring& str,size_t* idx=0,int base =10);
+//-----这个函数是将字符串转换成整形
+// 第一个参数是字符串   第二个参数是size_t类型的指针，是自己设置的，如果传入，最后转换出的是几位数字会给这个指针指向的变量   第三个参数是将其转换的进制，默认10进制
+
+//#include<string>
+//int main(void)
+//{
+//    size_t num=0;
+//    size_t* p=&num;
+//    cout<<stoi("12345",p)<<endl;//这个将字符串转换成整形指的是将字符串中的数字转换成整形，如果是这样就会报错stoi("abcd")
+//    cout<<num<<endl;
+//}
+//此外与之类似的还有 stlo()转换成long的    stod()转换成double的等等
+
+
+
+//2.to_string()   -----将整形（或者其他类型）转换成字符串
+//int main(void)
+//{
+//    int num1=4;
+//    double num2=3.14;
+//
+//    string s1=to_string(num1);
+//    string s2=to_string(num2);
+//    cout<<s1[0]<<endl;
+//    cout<<s2[1]<<endl;
+//}
