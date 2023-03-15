@@ -203,3 +203,8 @@ using namespace std;
 //    cout<<s1[0]<<endl;
 //    cout<<s2[1]<<endl;
 //}
+
+
+
+
+//补充：和vector一样能够使用迭代区间进行初始化
