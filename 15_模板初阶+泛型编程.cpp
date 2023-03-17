@@ -118,25 +118,29 @@ using namespace std;
 
 
 
-template<class TT>
-TT add(const TT& x1,const TT& x2)
-{
-    return x1+x2;
-}
-
-int main()
-{
-    int a=1;
-    int b=2;
-    double c=1.1;
-    double d=2.2;
-////    cout<<add(a,d)<<endl;//参数类型不相同会报错    解决方法如下
-
-    cout<<add(a,(int)d)<<endl;//解决办法之一，将参数先强制类型转换再使用
-
-    cout<<add<double>(a,d)<<endl;//解决办法之二，指明该函数的转换类型
-    cout<<add<int>(b,c)<<endl;//但是仅仅支持类型相近的，发生隐式类型转转换
-
-}
+//template<class TT>//当然这里可以直接定义两个类型<class T1,class T2>
+//TT add1(const TT& x1,const TT& x2)
+//{
+//    return x1+x2;
+//}
+//
+//int add1(int& x1,int&x2)//两个函数名一样，优先调用这个
+//{
+//    return x1+x2;
+//}
+//
+//int main()
+//{
+//    int a=1;
+//    int b=2;
+//    double c=1.1;
+//    double d=2.2;
+//////    cout<<add(a,d)<<endl;//参数类型不相同会报错    解决方法如下
+//
+//    cout<<add1(a,(int)d)<<endl;//解决办法之一，将参数先强制类型转换再使用
+//
+//    cout<<add1<double>(a,d)<<endl;//解决办法之二，指明该函数的转换类型
+//    cout<<add1<int>(b,c)<<endl;//但是仅仅支持类型相近的，发生隐式类型转转换
+//}
 
 

@@ -7,7 +7,7 @@ using namespace std;
 //这就是一个类模板
 //template<class T>
 //class stack                   //加上上面的template<class T>现在这个stack里面用着T，说明这个stack是个类模板
-//        //此外 此处的stack是类名         stack<T>是类型
+//        //模板定义过后 stack是类的名字，不能去实例化对象         stack<T>才可以，此处的T可以自己输入int，double之类的
 //{
 //public:
 //    stack(int capacity=4)

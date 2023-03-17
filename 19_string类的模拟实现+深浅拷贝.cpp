@@ -4,5 +4,6 @@
 //{
 //    string s1("hello world");
 //    string s2(s1);
-//    cout<<s1<<endl;
+//    s2.insert(0,'j');
+//    return 0;
 //}

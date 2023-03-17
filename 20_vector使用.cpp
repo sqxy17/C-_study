@@ -1,7 +1,8 @@
 //前言  vector可以看作为一个用数组实现的顺序增长的容器      -----容器就是来存储东西的
 //类模板声明  template<class T,class Alloc=allocator<T>>class vector;
 //本章节记录的是vector的使用
-//vector底层就是一个顺序表      顺序表的底层就是一个动态开辟的数组  vector<类型>就是告诉编译器要开辟出什么类型的空间
+//vector底层就是一个顺序表（也就是数组）      顺序表的底层就是一个动态开辟的数组  vector<类型>就是告诉编译器要开辟出什么类型的空间
+//vector是类的模板   vector<int>是模板的实例化，也就是说把一个类具体的实例化了。  vector<int> v1;这是实例化对象
 
 #include<iostream>
 #include <vector>
@@ -152,21 +153,80 @@ void test_vector7() {
 }
 
 
-int main(void)
-{
-//    test_vector1();
-//    test_vector3();
-//    test_vector4();
-//    test_vector5();
-//    test_vector6();
-    test_vector7();
-//    test_vector2();
 
-    return 0;
+
+void test_vector8()//比较用动态开辟和vector创建二维数组的区别       这个函数分别用两种方式创建10行5列的二维数组
+{
+    //首先先看看一维数组是怎么样的
+    int* arr=(int*)malloc(sizeof(int)*5);//这个就是创建了一个能存放5个整型的空间，这个懂该开辟的数组使用一维指针表示的       思考一下二维数组怎么办？
+    //二维数组无非就是数组里面存放数组         两者结和就是动态开辟的二维数组（带上下面的for循环）
+    int** parr=(int**)malloc(sizeof(int*)*10);//用动态开辟的方式去创建
+    for(size_t i=0;i<10;++i)//
+    {
+        parr[i]=(int*)malloc(sizeof(int*)*5);
+    }
+    //parr[i][j]是两次原生指针的解引用
+    //并且parr在不使用的时候，需要手动去销毁，比较麻烦
+
+
+    //接下来使用vector创建一个动态开辟的数组
+    vector<vector<int>> vv;//相对于上面的复杂形式，用vector创建就简单的多了     具体的申请空间在下面
+    //vv[i][j]是两次函数的调用  ps：[]是被重载过得符号
+    //但是vv不用去手动销毁，因为会自动调用两次析构函数
 }
+
+
+
+
+//vector的初始化
+vector<vector<int>>  test_vector9()//用的是杨辉三角举例子
+{
+    vector<vector<int>> vv;
+    vv.resize(5);//因为这是个二维数组，所以resize5，开辟了5个用来存放一维数组的空间          官方一点就是存放了五个vector<int>
+    //接下来对这五个vector<int>在进行申请空间
+    for(size_t i=0;i<5;i++)
+    {
+        vv[i].resize(i+1);//可以理解为对一位数组进行开辟空间,后面的参数是为一维数组开辟的空间的大小(元素个数)
+//        vv[i].front()=vv[i].back()=1;//这两个函数一个是头替换，一个是尾替换，两个函数返回的都是头（尾）位置的引用
+        vv[i][0]=vv[i][vv[i].size()-1]=1;//要注意区分vv.size   vv[i].size
+    }
+
+    for(size_t i=0;i<vv.size();++i)
+    {
+        for(size_t j=0;j<vv[i].size();++j)
+        {
+            if(vv[i][j]==0)
+            {
+                vv[i][j]=vv[i-1][j]+vv[i-1][j-1];
+            }
+        }
+    }
+    return  vv;
+}
+//另外vector只是一个容器，他可以存放任何类型的，也就是说他能存放自定义类型的数据  那就可以这样定义 vector(string)//完全可以
+//17节  1：30：00 oj题      涉及到回溯算法
+
+
+
+
+//int main(void)
+//{
+////  test_vector1();
+////  test_vector3();
+////  test_vector4();
+////  test_vector5();
+////  test_vector6();
+////    test_vector7();
+//    test_vector8();
+/////   test_vector2();
+//
+//    return 0;
+//}
 
 //string模板和vector的区别
 //vector不支持字符串的一些比较 + - += > <之类运算符
 //这个vector不适合查找，因为时间复杂度为O(N)，所以想要查找使用库函数中的<algorithm> 的find
 //为什么就string提供find呢？因为字符串查找可能是要查找子串（也就是可能查找多个值），而其他的容器都是查找某一个值，相似性比较高
 //reserve增容的过程基本还是1.5倍的增容
+
+//有兴趣看源码，先看框架，如果需要实现某些细节再看源码

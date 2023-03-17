@@ -15,7 +15,7 @@ void swap(char*& p1,char*& p2)
     p2=tmp;
 }
 
-namespace llk
+namespace llk1
 {
     class string
     {
@@ -298,23 +298,40 @@ namespace llk
 
 
         //字符的任意位置插入       //实在担心问题可以用指针来代替下标问题
+//        string& insert(size_t pos,char ch)
+//        {
+//            assert(pos<=_size);
+//            if(_size==_capacity)
+//            {
+//                reserve(_capacity=0?4:_capacity*2);
+//            }
+//            int end=_size;//从最后一个位置开始挪动
+//            while(end>=(int)pos)//size_t是一个无符号类型的long型变量，不会变成负值
+//            {
+//                _str[end+1]=_str[end];
+//                --end;
+//            }
+//            _str[pos]=ch;
+//            ++_size;
+//            return* this;
+//            //从申请空间以后的这坨代码还能简介一下   就是让end=_size+1;
+//        }
+
+
         string& insert(size_t pos,char ch)
         {
-            assert(pos<=_size);
+            assert(pos<=_size && pos>=0);
             if(_size==_capacity)
             {
-                reserve(_capacity=0?4:_capacity*2);
+                reserve(_capacity>0?4:_capacity*2);
             }
-            int end=_size;//从最后一个位置开始挪动
-            while(end>=(int)pos)//size_t是一个无符号类型的long型变量，不会变成负值
+            for(size_t i=_size+1;i>pos;i--)
             {
-                _str[end+1]=_str[end];
-                --end;
+                _str[i]=_str[i-1];
             }
             _str[pos]=ch;
             ++_size;
-            return* this;
-            //从申请空间以后的这坨代码还能简介一下   就是让end=_size+1;
+            return *this;
         }
 
 
