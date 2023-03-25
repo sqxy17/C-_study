@@ -142,6 +142,9 @@ using namespace std;
 
 
 
+
+
+//这里的是适配器存储的是内置类型的情况下的仿函数
 //说明一点，仿函数就是用来替代函数指针的
 
 //实现一个简单的仿函数
@@ -197,6 +200,8 @@ namespace llk
 {
     template<typename T,typename container=vector<T>,class compare=test_greater<T>>//现在实现的是有仿函数版本的
             //仿函数主要就是来控制大堆小堆的
+            //模拟的这两个主要是针对内置类型的，如果碰见的是自定义类型就需要自己手动去定义了。并且库函数里面的这两个仿函数也主要是对内置类型进行排序的
+            //也就是说如果容器存放的是自定义类型，那么需要在存放的自定义类型中重载一下>  <  这两个符号
     class priority_queue
     {
     public:
@@ -315,3 +320,63 @@ namespace llk
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//这里是自定义类型的仿函数的实现
+//也就是说如果在优先级队列中存放自定义类型的数据的时候，用户需要在priority_queue中提供>  < 的重载
+
+//总结起来就是说，如果数据类型不支持比较，或者比较的方式不是你想要的，那么可以自己实现仿函数，按照自己的方式来实现想要控制的函数
+
+
+class Date //如果定义的是指针类型的date，在比较里面还得先解引用
+{
+public:
+    Date(int year = 1900, int month = 1, int day = 1)
+            : _year(year)
+            , _month(month)
+            , _day(day)
+    {}
+    bool operator<(const Date& d)const
+    {
+        return (_year < d._year) ||
+               (_year == d._year && _month < d._month) ||
+               (_year == d._year && _month == d._month && _day < d._day);
+    }
+    bool operator>(const Date& d)const
+    {
+        return (_year > d._year) ||
+               (_year == d._year && _month > d._month) ||
+               (_year == d._year && _month == d._month && _day > d._day);
+    }
+
+
+//    如果容器中存放的是Date*类型的指针，就需要先引用再去复用了
+    bool operator()(const Date*& p1,const Date*& p2)
+    {
+        return *p1<*p2;
+    }
+    friend ostream& operator<<(ostream& _cout, const Date& d);//友元函数一般是在类外定义定义，类里面声明
+
+private:
+    int _year;
+    int _month;
+    int _day;
+};
+
+
+ostream& operator<<(ostream& _cout, const Date& d)//想要直接输出对象，必须重载流插入运算符
+{
+_cout << d._year << "-" << d._month << "-" << d._day<<endl;
+return _cout;
+}
